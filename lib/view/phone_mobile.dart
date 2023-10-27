@@ -5,6 +5,13 @@ import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rakhshak/constant.dart';
+import '../model/emergency_contacts.dart';
+import 'package:provider/provider.dart';
+
+List<Contact> _selectedContacts = [];
+
+List<Contact> _tappedContacts = [];
 
 class PhoneMobile extends StatefulWidget {
   @override
@@ -20,7 +27,6 @@ class _PhoneMobileState extends State<PhoneMobile> {
 
   List<Contact> _contacts = const [];
   String? _text;
-  List<Contact> _selectedContacts = [];
 
   bool _isLoading = false;
 
@@ -45,10 +51,60 @@ class _PhoneMobileState extends State<PhoneMobile> {
     setState(() {});
   }
 
+  void saveEmergencyContacts() async {
+    Provider.of<EmergencyContacts>(context, listen: false)
+        .saveEmergencyContacts(_selectedContacts);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            saveEmergencyContacts();
+            Navigator.pop(context);
+          },
+          label: Icon(Icons.save)),
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            if (_selectedContacts != _tappedContacts) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Save changes?'),
+                    content: SingleChildScrollView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: Text('Discard'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              saveEmergencyContacts();
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: Text('Save'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              Navigator.pop(context);
+            }
+          },
+        ),
         centerTitle: true,
         title: const Text('Contacts'),
       ),
@@ -96,12 +152,12 @@ class _PhoneMobileState extends State<PhoneMobile> {
 }
 
 class _ContactItem extends StatelessWidget {
-  const _ContactItem({
+  _ContactItem({
     Key? key,
     required this.contact,
   }) : super(key: key);
 
-  static final height = 86.0;
+  static const height = 86.0;
 
   final Contact contact;
 
@@ -131,13 +187,16 @@ class _ContactItem extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      
       child: ListTile(
+        onTap: () {
+          _selectedContacts.add(contact);
+        },
         leading: _ContactImage(contact: contact),
         title: Text(
           contact.displayName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: backgroundColor),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -167,6 +226,10 @@ class _ContactItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
           ],
+        ),
+        trailing: Text(
+          'Tap and click save',
+          style: TextStyle(fontSize: 13),
         ),
       ),
     );
@@ -198,12 +261,14 @@ class __ContactImageState extends State<_ContactImage> {
   Widget build(BuildContext context) {
     return FutureBuilder<td.Uint8List?>(
       future: _imageFuture,
-      builder: (context, snapshot) => Container(
-        width: 56,
-        height: 56,
-        child: snapshot.hasData
-            ? Image.memory(snapshot.data!, gaplessPlayback: true)
-            : Icon(Icons.account_box_rounded),
+      builder: (context, snapshot) => CircleAvatar(
+        child: Container(
+          width: 56,
+          height: 56,
+          child: snapshot.hasData
+              ? Image.memory(snapshot.data!, gaplessPlayback: true)
+              : Icon(Icons.account_box_rounded),
+        ),
       ),
     );
   }

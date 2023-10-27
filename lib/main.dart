@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rakhshak/constant.dart';
+import 'package:rakhshak/model/emergency_contacts.dart';
 import './view/home_page.dart';
 import './view/contact_screen.dart';
 import './view/dashboard.dart';
 import './view/phone_mobile.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context)=>EmergencyContacts(),
+    
+    child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
 
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -34,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const Dashboard(),
         '/phone': (context) => PhoneMobile(),
       },
+      
       home: HomePage(),
     );
   }
