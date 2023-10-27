@@ -1,7 +1,8 @@
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import '../model/emergency_contacts.dart';
+import 'package:provider/provider.dart';
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
 
@@ -30,9 +31,12 @@ class _ContactScreenState extends State<ContactScreen> {
               onPressed: () {},
             )),
         body: FutureBuilder(
-            future: checkforContacts(),
-            builder: (context, AsyncSnapshot<List<String>> snap) {
+            future:
+                Provider.of<EmergencyContacts>(context).fetchSavedEmergency(), //now work from here
+            builder: (context, AsyncSnapshot<List<Contact>> snap) {
               if (snap.hasData && snap.data!.isNotEmpty) {
+                print(snap.data);
+
                 return Column(
                   children: [
                     Padding(
@@ -59,6 +63,8 @@ class _ContactScreenState extends State<ContactScreen> {
                       child: ListView.builder(
                         itemCount: snap.data!.length,
                         itemBuilder: (context, index) {
+                          final contact = snap.data![index];
+
                           return Slidable(
                             child: Container(
                               color: Colors.white,
@@ -68,8 +74,13 @@ class _ContactScreenState extends State<ContactScreen> {
                                   backgroundImage:
                                       AssetImage("assets/user.png"),
                                 ),
-                                title: Text("No Name"),
-                                subtitle: Text("No Contact"),
+                                title: Text(contact
+                                    .displayName), // Display contact name
+                                subtitle: Text(
+                                  contact.phones.isNotEmpty
+                                      ? contact.phones[0].number
+                                      : "No Contact", // Display first phone number if available
+                                ),
                               ),
                             ),
                             endActionPane: ActionPane(
@@ -80,7 +91,9 @@ class _ContactScreenState extends State<ContactScreen> {
                                   backgroundColor: Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
-                                  onPressed: (context) => {},
+                                  onPressed: (context) {
+                                    // Handle delete action here
+                                  },
                                 ),
                               ],
                             ),
@@ -99,18 +112,5 @@ class _ContactScreenState extends State<ContactScreen> {
                 );
               }
             }));
-  }
-
-  Future<List<String>> checkforContacts() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> contacts = prefs.getStringList("numbers") ?? [];
-    print(contacts);
-    return contacts;
-  }
-
-  updateNewContactList(List<String> contacts) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList("numbers", contacts);
-    print(contacts);
   }
 }
