@@ -51,17 +51,22 @@ class _PhoneMobileState extends State<PhoneMobile> {
     setState(() {});
   }
 
-  void saveEmergencyContacts() async {
-    Provider.of<EmergencyContacts>(context, listen: false)
-        .saveEmergencyContacts(_selectedContacts);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            saveEmergencyContacts();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Contacts Saved'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Provider.of<EmergencyContacts>(context, listen: false)
+                .saveContacts(_selectedContacts);
+
+            _selectedContacts = [];
+            _tappedContacts = [];
             Navigator.pop(context);
           },
           label: Icon(Icons.save)),
@@ -88,7 +93,16 @@ class _PhoneMobileState extends State<PhoneMobile> {
                           ),
                           TextButton(
                             onPressed: () {
-                              saveEmergencyContacts();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Contacts Saved'),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                              Provider.of<EmergencyContacts>(context,
+                                      listen: false)
+                                  .saveContacts(_selectedContacts);
+
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
