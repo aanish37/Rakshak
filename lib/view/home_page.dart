@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         backgroundColor: Color(0xFFFAFCFE),
         floatingActionButton: currentPage == 1
             ? FloatingActionButton(
@@ -48,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             : FloatingActionButton(
-                backgroundColor: backgroundColor,
+                backgroundColor: Colors.white,
                 onPressed: () {},
                 child: alerted
                     ? Column(
@@ -63,39 +62,43 @@ class _HomePageState extends State<HomePage> {
                       )
                     : Image.asset(
                         "assets/icons/alert.png",
-                        height: 36,
+                        height: 80,
                       ),
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 12,
-          child: Container(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                    onTap: () {
-                      if (currentPage != 0)
-                        setState(() {
-                          currentPage = 0;
-                        });
-                    },
-                    child: Image.asset(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (currentPage != 0)
+                    setState(() {
+                      currentPage = 0;
+                    });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset(
                       "assets/home.png",
                       height: 28,
-                    )),
-                InkWell(
-                    onTap: () {
-                      if (currentPage != 1)
-                        setState(() {
-                          currentPage = 1;
-                        });
-                    },
-                    child: Image.asset("assets/phone.png", height: 28)),
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (currentPage != 1)
+                    setState(() {
+                      currentPage = 1;
+                    });
+                },
+                child: Image.asset("assets/phone.png", height: 28),
+              ),
+            ],
           ),
         ),
         body: pages[currentPage]);
