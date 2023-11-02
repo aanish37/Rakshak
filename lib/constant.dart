@@ -4,4 +4,4 @@ import 'view/contact_screen.dart';
 
 const pages = [Dashboard(), ContactScreen()];
 
-const backgroundColor = Colors.purple;
+const backgroundColor = Colors.purpleAccent;

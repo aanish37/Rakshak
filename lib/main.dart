@@ -9,9 +9,7 @@ import './view/phone_mobile.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context)=>EmergencyContacts(),
-    
-    child: const MyApp()));
+      create: (context) => EmergencyContacts(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,18 +19,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
-
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
-          scrollbarTheme: ScrollbarThemeData(
-            trackVisibility: MaterialStateProperty.all(true),
-            thumbVisibility: MaterialStateProperty.all(true),
-          ),
         colorScheme: ColorScheme.fromSeed(seedColor: backgroundColor),
         useMaterial3: true,
+        primaryTextTheme: const TextTheme(
+          headlineLarge: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),
+          bodySmall: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w300, color: Colors.black),
+          bodyLarge: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+        ),
+        scrollbarTheme: ScrollbarThemeData(
+          trackVisibility: MaterialStateProperty.all(true),
+          thumbVisibility: MaterialStateProperty.all(true),
+        ),
       ),
       routes: {
         '/home': (context) => HomePage(),
@@ -40,7 +43,6 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const Dashboard(),
         '/phone': (context) => PhoneMobile(),
       },
-      
       home: HomePage(),
     );
   }
