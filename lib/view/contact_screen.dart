@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../model/emergency_contacts.dart';
 import 'package:provider/provider.dart';
 
+
+
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
 
@@ -69,14 +71,14 @@ class _ContactScreenState extends State<ContactScreen> {
                                     actions: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.of(context).pop(false);
-                                          },
-                                          child: Text("No")),
-                                      TextButton(
-                                          onPressed: () {
                                             Navigator.of(context).pop(true);
                                           },
                                           child: Text("Yes")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(false);
+                                          },
+                                          child: Text("No")),
                                     ],
                                   )),
                           key: Key(snap.data![index]),

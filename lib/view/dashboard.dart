@@ -105,15 +105,39 @@ class Dashboard extends StatelessWidget {
               elevation: 5,
               child: InkWell(
                 child: Column(children: [
-                  Text(
-                    'Get Home Sage',
-                    style:
-                        Theme.of(context).copyWith().primaryTextTheme.bodyLarge,
-                  ),
-                  Text(
-                    'Share Location Periodically',
-                    style:
-                        Theme.of(context).copyWith().primaryTextTheme.bodySmall,
+                  Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Get Home Safe',
+                              style: Theme.of(context)
+                                  .copyWith()
+                                  .primaryTextTheme
+                                  .bodyLarge,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Share Location\n Periodically',
+                              style: Theme.of(context)
+                                  .copyWith()
+                                  .primaryTextTheme
+                                  .bodySmall,
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+                        Image.asset(
+                          'assets/girl.png',
+                          height: 120,
+                        )
+                      ],
+                    ),
                   ),
                 ]),
               ),

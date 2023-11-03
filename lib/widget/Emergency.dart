@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rakhshak/constant.dart';
 
+import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Emergency extends StatelessWidget {
@@ -105,17 +106,16 @@ class Emergency extends StatelessWidget {
 
   void _callNumber(String number) async {
     try {
-      canLaunchUrl(Uri(scheme: 'tel', path: number)).then((bool result) async {
-        if (result) {
-          final Uri launchUri = Uri(
-            scheme: 'tel',
-            path: number,
-          );
-          await launchUrl(launchUri);
-        } else {
-          print('Cannot launch URL');
-        }
-      });
+      final Uri launchUri = Uri(
+        scheme: 'tel',
+        path: number,
+      );
+
+      if (await canLaunch(launchUri.toString())) {
+        await launch(launchUri.toString());
+      } else {
+        print('Cannot launch URL');
+      }
     } catch (e) {
       print(e);
     }
