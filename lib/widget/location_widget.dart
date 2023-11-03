@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class LocationWidget extends StatelessWidget {
   const LocationWidget({super.key, required this.title, required this.image});
@@ -36,5 +37,7 @@ class LocationWidget extends StatelessWidget {
     );
   }
 
-  openMapFunc(String s) {}
+  openMapFunc(String s) {
+    MapsLauncher.launchQuery(s);
+  }
 }
