@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../model/emergency_contacts.dart';
 import 'package:provider/provider.dart';
 
-
-
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
 

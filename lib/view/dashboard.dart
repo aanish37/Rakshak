@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rakhshak/widget/Emergency.dart';
 import '../widget/location_widget.dart';
+import '../widget/safe_home.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -101,47 +102,7 @@ class Dashboard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Card(
-              elevation: 5,
-              child: InkWell(
-                child: Column(children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Get Home Safe',
-                              style: Theme.of(context)
-                                  .copyWith()
-                                  .primaryTextTheme
-                                  .bodyLarge,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Share Location\n Periodically',
-                              style: Theme.of(context)
-                                  .copyWith()
-                                  .primaryTextTheme
-                                  .bodySmall,
-                              softWrap: true,
-                            ),
-                          ],
-                        ),
-                        Image.asset(
-                          'assets/girl.png',
-                          height: 120,
-                        )
-                      ],
-                    ),
-                  ),
-                ]),
-              ),
-            ),
+            child: SafeHome(),
           )
         ],
       ),

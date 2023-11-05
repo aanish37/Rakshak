@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class EmergencyContacts extends ChangeNotifier {
   List<String> _contacts = [];
+  String? _sharingContact;
 
   List<String> get contacts => _contacts;
 
@@ -43,6 +44,15 @@ class EmergencyContacts extends ChangeNotifier {
     _contacts = numbers;
     notifyListeners();
     print("Saved");
+  }
+
+  void saveSharingContacts(String sharingContact) {
+    _sharingContact = sharingContact;
+    notifyListeners();
+  }
+
+  String? fetchSharingContacts() {
+    return _sharingContact;
   }
 
   String refactorPhoneNumbers(String phone) {
