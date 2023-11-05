@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "C:/Yubii/yubraj/TECH_AND_IT/work_project/rakshak/linux"
+  "cmake.sourceDirectory": "C:/Yubii/yubraj/TECH_AND_IT/work_project/rakshak/linux",
+  "audioCues.chatResponsePending": "off"
 }
