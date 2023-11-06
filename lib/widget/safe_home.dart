@@ -4,8 +4,7 @@ import './contact_item.dart';
 import '../model/emergency_contacts.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import '../model/sms.dart';
-import 'package:telephony/telephony.dart';
+import '../model/sms.dart';
 
 class SafeHome extends StatefulWidget {
   const SafeHome({
@@ -207,8 +206,6 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
   }
 
   void _sendSMS() async {
-    final Telephony telephony = Telephony.instance;
-
-    telephony.sendSms(to: "1234567890", message: "May the force be with you!");
+    requestSmsPermission();
   }
 }
