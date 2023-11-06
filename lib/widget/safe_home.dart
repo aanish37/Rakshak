@@ -4,7 +4,8 @@ import './contact_item.dart';
 import '../model/emergency_contacts.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import '../model/sms.dart';
+import 'package:telephony/telephony.dart';
 
 class SafeHome extends StatefulWidget {
   const SafeHome({
@@ -35,6 +36,8 @@ class _SafeHomeState extends State<SafeHome> {
 
   @override
   Widget build(BuildContext context) {
+    checkGetHomeActivated();
+
     return Card(
       elevation: 10,
       child: InkWell(
@@ -81,14 +84,13 @@ class _SafeHomeState extends State<SafeHome> {
           Visibility(
             visible: getHomeSafeActivated,
             child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(14.0),
                 child: Row(
                   children: [
                     SpinKitDoubleBounce(
                       color: Colors.red,
                       size: 15,
                     ),
-                    SizedBox(width: 15),
                     Text("Currently Running...",
                         style: TextStyle(color: Colors.red, fontSize: 10)),
                   ],
@@ -100,6 +102,7 @@ class _SafeHomeState extends State<SafeHome> {
   }
 }
 
+// ignore: must_be_immutable
 class SafeHomeWidget extends StatefulWidget {
   SafeHomeWidget({super.key, required this.getHomeActivated});
   bool getHomeActivated;
@@ -108,14 +111,8 @@ class SafeHomeWidget extends StatefulWidget {
 }
 
 class _SafeHomeWidgetState extends State<SafeHomeWidget> {
-  bool _sharing = false;
-
   changeStateOfHomeSafe(value) async {
-    if (value) {
-      Fluttertoast.showToast(msg: "Service Activated in Background!");
-    } else {
-      Fluttertoast.showToast(msg: "Service Disabled!");
-    }
+    print(value);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
@@ -128,7 +125,7 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
   Widget build(BuildContext context) {
     String? sharingNumber =
         Provider.of<EmergencyContacts>(context, listen: true)
-            .fetchSharingContacts();
+            .fetchSharingContact();
     return Container(
       padding: const EdgeInsets.all(12),
       height: 800,
@@ -169,15 +166,26 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
                             'Share Location',
                             style: TextStyle(fontSize: 20),
                           ),
-                    value: _sharing,
+                    value: widget.getHomeActivated,
                     onChanged: (value) {
-                      changeStateOfHomeSafe(true);
-
                       sharingNumber != null
-                          ? setState(() {
-                              _sharing = value;
-                            })
+                          ? changeStateOfHomeSafe(value)
                           : null;
+                      value == false
+                          ? Provider.of<EmergencyContacts>(context,
+                                  listen: false)
+                              .saveSharingContacts(null)
+                          : null;
+
+                      //only toggle if sharing number is not null else do nothing
+
+                      if (sharingNumber != null) {
+                        setState(() {
+                          widget.getHomeActivated = value;
+                        });
+
+                        _sendSMS();
+                      }
                     }),
                 ListTile(
                   leading: Icon(Icons.location_on),
@@ -196,5 +204,11 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
         ],
       ),
     );
+  }
+
+  void _sendSMS() async {
+    final Telephony telephony = Telephony.instance;
+
+    telephony.sendSms(to: "1234567890", message: "May the force be with you!");
   }
 }
