@@ -46,12 +46,12 @@ class EmergencyContacts extends ChangeNotifier {
     print("Saved");
   }
 
-  void saveSharingContacts(String sharingContact) {
+  void saveSharingContacts(String? sharingContact) {
     _sharingContact = sharingContact;
     notifyListeners();
   }
 
-  String? fetchSharingContacts() {
+  String? fetchSharingContact() {
     return _sharingContact;
   }
 
