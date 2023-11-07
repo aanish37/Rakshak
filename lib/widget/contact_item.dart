@@ -20,7 +20,8 @@ class _ContactItemState extends State<ContactItem> {
   @override
   Widget build(BuildContext context) {
     String? sharingContact =
-        Provider.of<EmergencyContacts>(context).fetchSharingContact();
+        Provider.of<EmergencyContacts>(context, listen: true)
+            .fetchSharingContact();
     return FutureBuilder(
         future: Provider.of<EmergencyContacts>(context, listen: false)
             .checkForContacts(),
@@ -29,25 +30,6 @@ class _ContactItemState extends State<ContactItem> {
             return Expanded(
               child: Column(
                 children: [
-                  // const Padding(
-                  //   padding: EdgeInsets.symmetric(vertical: 8.0),
-                  //   child: Row(
-                  //     children: [
-                  //       Expanded(
-                  //         child: Divider(
-                  //           indent: 20,
-                  //           endIndent: 20,
-                  //         ),
-                  //       ),
-                  //       Expanded(
-                  //         child: Divider(
-                  //           indent: 20,
-                  //           endIndent: 20,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: snap.data!.length,

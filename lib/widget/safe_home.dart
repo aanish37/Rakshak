@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
 import './contact_item.dart';
 import '../model/emergency_contacts.dart';
@@ -82,8 +83,8 @@ class _SafeHomeState extends State<SafeHome> {
           ),
           Visibility(
             visible: getHomeSafeActivated,
-            child: Padding(
-                padding: const EdgeInsets.all(14.0),
+            child: const Padding(
+                padding: EdgeInsets.all(14.0),
                 child: Row(
                   children: [
                     SpinKitDoubleBounce(
@@ -110,14 +111,21 @@ class SafeHomeWidget extends StatefulWidget {
 }
 
 class _SafeHomeWidgetState extends State<SafeHomeWidget> {
-  changeStateOfHomeSafe(value) async {
+  changeStateOfHomeSafe(value, sharingNumber) async {
     print(value);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    setState(() {
-      widget.getHomeActivated = value;
+    if (value == false) {
+      widget.getHomeActivated = false;
       prefs.setBool("getHomeSafe", value);
-    });
+    }
+
+    if (sharingNumber != null && value == true) {
+      setState(() {
+        widget.getHomeActivated = true;
+        prefs.setBool("getHomeSafe", value);
+      });
+    }
   }
 
   @override
@@ -157,19 +165,26 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
               children: [
                 SwitchListTile(
                     title: sharingNumber == null
-                        ? Text(
+                        ? const Text(
                             'Select One Contact First',
                             style: TextStyle(fontSize: 16),
                           )
-                        : Text(
+                        : const Text(
                             'Share Location',
                             style: TextStyle(fontSize: 20),
                           ),
                     value: widget.getHomeActivated,
-                    onChanged: (value) {
-                      sharingNumber != null
-                          ? changeStateOfHomeSafe(value)
-                          : null;
+                    onChanged: (value) async {
+                      changeStateOfHomeSafe(value, sharingNumber);
+                      FlutterBackgroundService service =
+                          FlutterBackgroundService();
+
+                      bool isRunning = await service.isRunning();
+
+                      if (value == false && isRunning) {
+                        service.invoke('stopService');
+                      }
+
                       value == false
                           ? Provider.of<EmergencyContacts>(context,
                                   listen: false)
@@ -178,20 +193,24 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
 
                       //only toggle if sharing number is not null else do nothing
 
-                      if (sharingNumber != null) {
+                      if (sharingNumber != null && value == true) {
                         setState(() {
-                          widget.getHomeActivated = value;
+                          widget.getHomeActivated = true;
                         });
 
-                        _sendSMS();
+                        if (value == true && !isRunning) {
+                          FlutterBackgroundService().invoke('setAsForeground');
+                          FlutterBackgroundService().invoke('setAsBackground');
+                          requestSmsPermission(sharingNumber);
+                        }
                       }
                     }),
-                ListTile(
+                const ListTile(
                   leading: Icon(Icons.location_on),
                   title: Text('Location'),
                   subtitle: Text('Kathmandu, Nepal'),
                 ),
-                ListTile(
+                const ListTile(
                   leading: Icon(Icons.timer),
                   title: Text('Repeat'),
                   subtitle: Text('10 Minutes'),
@@ -199,13 +218,9 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
               ],
             ),
           ),
-          ContactItem(),
+          const ContactItem(),
         ],
       ),
     );
-  }
-
-  void _sendSMS() async {
-    requestSmsPermission();
   }
 }
