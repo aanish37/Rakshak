@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../constant.dart';
+import '../widget/pinBottomSheet.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   int index = 0;
 
@@ -13,10 +15,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPage = 0;
   bool alerted = false;
+  int pin = -1111;
 
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO: implement initS
+    // tate
     super.initState();
 
     if (widget.index == 1) {
@@ -54,8 +58,8 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
-                            "assets/icons/alarm.png",
-                            height: 24,
+                            "assets/alert.png",
+                            height: 35,
                           ),
                           Text("STOP")
                         ],

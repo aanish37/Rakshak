@@ -6,6 +6,7 @@ import '../model/emergency_contacts.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/sms.dart';
+import 'dart:async';
 
 class SafeHome extends StatefulWidget {
   const SafeHome({
@@ -25,6 +26,19 @@ class _SafeHomeState extends State<SafeHome> {
     setState(() {
       getHomeSafeActivated = prefs.getBool("getHomeSafe") ?? false;
     });
+  }
+
+  removeGetHome() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('getHomeSafe', false);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    removeGetHome();
   }
 
   @override
@@ -128,6 +142,14 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
     }
   }
 
+  Timer? timer;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     String? sharingNumber =
@@ -175,35 +197,39 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
                           ),
                     value: widget.getHomeActivated,
                     onChanged: (value) async {
+                      print(value);
                       changeStateOfHomeSafe(value, sharingNumber);
-                      FlutterBackgroundService service =
-                          FlutterBackgroundService();
+                     
 
-                      bool isRunning = await service.isRunning();
 
-                      if (value == false && isRunning) {
-                        service.invoke('stopService');
+                      if (value == false) {
+                        Provider.of<EmergencyContacts>(context, listen: false)
+                            .saveSharingContacts(null);
                       }
-
-                      value == false
-                          ? Provider.of<EmergencyContacts>(context,
-                                  listen: false)
-                              .saveSharingContacts(null)
-                          : null;
-
-                      //only toggle if sharing number is not null else do nothing
 
                       if (sharingNumber != null && value == true) {
                         setState(() {
                           widget.getHomeActivated = true;
                         });
 
-                        if (value == true && !isRunning) {
-                          FlutterBackgroundService().invoke('setAsForeground');
-                          FlutterBackgroundService().invoke('setAsBackground');
+                        if (value == true) {
+                   
                           requestSmsPermission(sharingNumber);
                         }
                       }
+
+                      timer = Timer.periodic(Duration(minutes: 1), (timer) {
+                        if (sharingNumber != null && value == true) {
+                          requestSmsPermission(sharingNumber);
+                        }
+                      });
+
+                      if (value == false) {
+                        timer?.cancel();
+                        print('stopeed');
+                      }
+
+                      //only toggle if sharing number is not null else do nothing
                     }),
                 const ListTile(
                   leading: Icon(Icons.location_on),
@@ -213,7 +239,7 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
                 const ListTile(
                   leading: Icon(Icons.timer),
                   title: Text('Repeat'),
-                  subtitle: Text('10 Minutes'),
+                  subtitle: Text('1 Minutes'),
                 ),
               ],
             ),
