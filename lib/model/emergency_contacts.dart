@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EmergencyContacts extends ChangeNotifier {
   List<String> _contacts = [];
   String? _sharingContact;
+  late bool alerted;
+  late int pin;
 
   List<String> get contacts => _contacts;
 
@@ -61,18 +63,56 @@ class EmergencyContacts extends ChangeNotifier {
     }
     var newPhone = phone.replaceAll(RegExp(r"[^\name\w]"), '');
     if (newPhone.length == 13) {
-      newPhone = "+" + newPhone.substring(0, newPhone.length);
+      newPhone = "+${newPhone.substring(0, newPhone.length)}";
     }
     if (newPhone.length == 12) {
-      newPhone = "+977" + newPhone.substring(1, newPhone.length);
+      newPhone = "+977${newPhone.substring(1, newPhone.length)}";
     }
     if (newPhone.length > 12) {
       var start2Number = newPhone.substring(0, 2);
       if (start2Number == "977") {
-        newPhone = "+" + newPhone.substring(0, 12);
+        newPhone = "+${newPhone.substring(0, 12)}";
       }
     }
 
     return newPhone;
+  }
+
+  //setPIn
+
+  Future<void> setPin(int pin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('password', pin);
+  }
+
+//getPin
+
+  Future<int> getPin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    pin = prefs.getInt('password') ?? -1111;
+    return pin;
+  }
+
+  Future<bool> getAlertedStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    alerted = prefs.getBool('alerted') ?? false;
+
+    return alerted;
+  }
+
+  Future<void> setAlertedStatus(bool val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('alerted', val);
+
+    notifyListeners();
+  }
+
+  createPin(String pin) async {
+    final prefs = await SharedPreferences.getInstance();
+    final int parsedPin = int.parse(pin);
+    prefs.setInt('password', parsedPin);
+    print('password created succesfully');
   }
 }

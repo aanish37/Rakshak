@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
 import './contact_item.dart';
 import '../model/emergency_contacts.dart';
