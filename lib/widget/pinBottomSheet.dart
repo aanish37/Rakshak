@@ -1,10 +1,20 @@
 import 'package:pinput/pinput.dart';
 
 import 'package:flutter/material.dart';
+import 'package:rakhshak/constant.dart';
+import 'package:rakhshak/model/emergency_contacts.dart';
+import 'package:rakhshak/model/sms.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
-showPinModelBottomSheet(int userPin, context) {
+showPinModelBottomSheet(
+  context,
+) async {
+  int userPin =
+      await Provider.of<EmergencyContacts>(context, listen: false).getPin();
+
+  bool alerted = await Provider.of<EmergencyContacts>(context, listen: false)
+      .getAlertedStatus();
   showModalBottomSheet(
       useSafeArea: true,
       isScrollControlled: true,
@@ -18,7 +28,7 @@ showPinModelBottomSheet(int userPin, context) {
           child: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height / 2.5,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -27,21 +37,23 @@ showPinModelBottomSheet(int userPin, context) {
               ),
               child: Column(
                 children: [
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           indent: 20,
                           endIndent: 20,
                         ),
                       ),
                       Text(
-                        "Please enter you PIN!",
-                        style: TextStyle(
+                        userPin != -1111
+                            ? "Please enter your PIN!"
+                            : "Create your Pin!",
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           indent: 20,
                           endIndent: 20,
@@ -53,7 +65,7 @@ showPinModelBottomSheet(int userPin, context) {
                   Container(
                       margin: const EdgeInsets.all(20.0),
                       padding: const EdgeInsets.all(20.0),
-                      child: PinputExample()),
+                      child: PinputExample(userPin: userPin, alerted: alerted)),
                 ],
               ),
             ),
@@ -76,8 +88,13 @@ void _showSnackBar(String pin, BuildContext context, int userPin) {
   }
 }
 
+// ignore: must_be_immutable
 class PinputExample extends StatefulWidget {
-  const PinputExample({Key? key}) : super(key: key);
+  PinputExample({Key? key, required this.userPin, required this.alerted})
+      : super(key: key);
+
+  int userPin;
+  bool alerted;
 
   @override
   State<PinputExample> createState() => _PinputExampleState();
@@ -88,16 +105,42 @@ class _PinputExampleState extends State<PinputExample> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
+  // late bool alerted;
+
+  // createPassword(String pin) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final int parsedPin = int.parse(pin);
+  //   prefs.setInt('password', parsedPin);
+  //   print('password created succesfully');
+  // }
+
+  // Future<void> changeAlertStatus(value) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setBool('alerted', value);
+  // // }
+
+  // Future<void> getAlertStatus() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   alerted = prefs.getBool('alerted') ?? false;
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   void dispose() {
     pinController.dispose();
     focusNode.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
+    const focusedBorderColor = backgroundColor;
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
     const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
@@ -123,24 +166,80 @@ class _PinputExampleState extends State<PinputExample> {
           Directionality(
             // Specify direction if desired
             textDirection: TextDirection.ltr,
+
             child: Pinput(
               controller: pinController,
               focusNode: focusNode,
               defaultPinTheme: defaultPinTheme,
-              separatorBuilder: (index) => const SizedBox(width: 8),
+              separator: const SizedBox(width: 8),
               validator: (value) {
-                return value == '2222' ? null : 'Pin is incorrect';
+                if (widget.userPin == -1111) {
+                  print('try to add pin');
+                  return null;
+                } else if (value == null) {
+                  return 'Add Pin First';
+                } else if (int.parse(value) == widget.userPin) {
+                  return null;
+                } else {
+                  print('Pin is incorrect');
+                  return 'Pin is incorrect';
+                }
               },
               onClipboardFound: (value) {
                 debugPrint('onClipboardFound: $value');
                 pinController.setText(value);
               },
               hapticFeedbackType: HapticFeedbackType.lightImpact,
-              onCompleted: (pin) {
+              onCompleted: (pin) async {
+                if (widget.userPin == -1111) {
+                  print('try to add pin');
+                  Provider.of<EmergencyContacts>(context, listen: false)
+                      .createPin(pin);
+
+                  Navigator.pop(context);
+                } else {
+                  if (int.parse(pin) == widget.userPin) {
+                    print('password matched as above start sending messages');
+
+                    if (widget.alerted) {
+                      print(false);
+                      Provider.of<EmergencyContacts>(context, listen: false)
+                          .setAlertedStatus(false);
+                    }
+
+                    if (widget.alerted == false) {
+                      print(true);
+                      final numbers = await Provider.of<EmergencyContacts>(
+                              context,
+                              listen: false)
+                          .checkForContacts();
+
+                      Provider.of<EmergencyContacts>(context, listen: false)
+                          .setAlertedStatus(true);
+                      //start sending message;]
+
+                      if (numbers == []) {
+                        print('add numbers first');
+                      } else {
+                        print('numbers added');
+                        print(numbers);
+
+                        requestSmsPermission('-1111');
+                        // numbers.map((number) {
+                        //   final msg=number.split('***')[1];
+
+                        //   requestSmsPermission(msg);
+                        // });
+                        print('executed');
+                      }
+                    }
+
+                    Navigator.pop(context);
+                  } else {
+                    print('Pin is incorrect');
+                  }
+                }
                 debugPrint('onCompleted: $pin');
-              },
-              onChanged: (value) {
-                debugPrint('onChanged: $value');
               },
               cursor: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
