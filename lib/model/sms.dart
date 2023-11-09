@@ -1,9 +1,22 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart' as per;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> requestSmsPermission(String number) async {
+  List<String> numbers = [];
   final status = await per.Permission.sms.request();
+  if (number == '-1111') {
+    print('hello');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> contacts = prefs.getStringList("numbers") ?? [];
+
+    numbers = contacts.map((e) => e.split('***')[1]).toList();
+  } else {
+    numbers = [number];
+  }
+
+  print(number);
 
   Location location = Location();
 
@@ -34,12 +47,14 @@ Future<void> requestSmsPermission(String number) async {
   print(_locationData);
 
   if (status.isGranted) {
-    final uri =
-        'sms:$number?body=Hey,I am here   https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}';
-    if (await canLaunch(uri)) {
-      await launch(uri);
-    } else {
-      print('permission denied');
+    for (String num in numbers) {
+      final uri =
+          'sms:$num?body=Hey, I am here https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}';
+      if (await canLaunch(uri)) {
+        await launch(uri);
+      } else {
+        print('Permission denied for number: $num');
+      }
     }
   }
 }

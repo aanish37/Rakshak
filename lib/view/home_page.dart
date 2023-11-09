@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../constant.dart';
 import '../widget/pinBottomSheet.dart';
+import 'package:provider/provider.dart';
+import '../model/emergency_contacts.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   int index = 0;
 
-  HomePage({this.index = 0});
+  HomePage({super.key, this.index = 0});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,15 +16,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPage = 0;
-  bool alerted = false;
-  int pin = -1111;
+  late bool alerted = false; // Initialize with a default value
+  List<String> numbers = [];
 
   @override
   void initState() {
-    // TODO: implement initS
-    // tate
     super.initState();
-
     if (widget.index == 1) {
       currentPage = 1;
     }
@@ -30,81 +29,122 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xFFFAFCFE),
-        floatingActionButton: currentPage == 1
-            ? FloatingActionButton(
-                // backgroundColor: backgroundColor,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/phone');
-                },
-                backgroundColor: Colors.white,
+    //   final userPin =
+    // //       Provider.of<EmergencyContacts>(context, listen: false).getPin();
+    //   final alerted = Provider.of<EmergencyContacts>(context, listen: false)
+    //       .getAlertedStatus();
 
-                // child: Icon(
-                //   Icons.add_call,
-                //   color: Colors.white,
-                // ),
-                child: Icon(
-                  Icons.person_add_alt_1_rounded,
-                  color: backgroundColor,
-                  size: 36,
-                ),
-              )
-            : FloatingActionButton(
-                backgroundColor: Colors.white,
-                onPressed: () {},
-                child: alerted
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            "assets/alert.png",
-                            height: 35,
-                          ),
-                          Text("STOP")
-                        ],
-                      )
-                    : Image.asset(
-                        "assets/icons/alert.png",
-                        height: 80,
-                      ),
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          notchMargin: 12,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (currentPage != 0)
-                    setState(() {
-                      currentPage = 0;
-                    });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset(
-                      "assets/home.png",
-                      height: 28,
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if (currentPage != 1)
-                    setState(() {
-                      currentPage = 1;
-                    });
-                },
-                child: Image.asset("assets/phone.png", height: 28),
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: Container(
+          margin: EdgeInsets.only(left: 5),
+          decoration: BoxDecoration(
+            // color: backgroundLight,
+            shape: BoxShape.circle,
+          ),
+          child: Image.asset(
+            'assets/rakshak_logo-removebg-preview.png',
+            fit: BoxFit.contain,
           ),
         ),
-        body: pages[currentPage]);
+        title: Text('Rakshak'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Icon(
+              Icons.settings,
+              size: 30,
+              color: Colors.black,
+            ),
+          )
+        ],
+      ),
+      backgroundColor: const Color(0xFFFAFCFE),
+      floatingActionButton: currentPage == 1
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/phone');
+              },
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.person_add_alt_1_rounded,
+                color: backgroundColor,
+                size: 36,
+              ),
+            )
+          : FloatingActionButton(
+              backgroundColor: Colors.white,
+              onPressed: () {
+                setState(() {
+                  showPinModelBottomSheet(context);
+                });
+              },
+              child: FutureBuilder(
+                  future: Provider.of<EmergencyContacts>(context, listen: true)
+                      .getAlertedStatus(),
+                  builder: ((context, snapshot) {
+                    print(snapshot.data);
+                    if (snapshot.hasData) {
+                      return snapshot.data == true
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  "assets/alert.png",
+                                  height: 35,
+                                ),
+                                const Text("STOP")
+                              ],
+                            )
+                          : Image.asset(
+                              "assets/icons/alert.png",
+                              height: 80,
+                            );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  })),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 12,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (currentPage != 0) {
+                  setState(() {
+                    currentPage = 0;
+                  });
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset(
+                    "assets/home.png",
+                    height: 28,
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (currentPage != 1) {
+                  setState(() {
+                    currentPage = 1;
+                  });
+                }
+              },
+              child: Image.asset("assets/phone.png", height: 28),
+            ),
+          ],
+        ),
+      ),
+      body: pages[currentPage],
+    );
   }
 }

@@ -12,7 +12,6 @@ class Dashboard extends StatelessWidget {
       padding: EdgeInsets.all(12),
       child: Column(
         children: [
-          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
