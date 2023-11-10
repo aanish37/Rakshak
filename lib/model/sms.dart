@@ -3,7 +3,7 @@ import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart' as per;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> requestSmsPermission(String number) async {
+Future<void> requestSmsPermission(String number,String msg) async {
   List<String> numbers = [];
   final status = await per.Permission.sms.request();
   if (number == '-1111') {
@@ -49,7 +49,7 @@ Future<void> requestSmsPermission(String number) async {
   if (status.isGranted) {
     for (String num in numbers) {
       final uri =
-          'sms:$num?body=Hey, I am here https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}';
+          'sms:$num?body=$msg https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}';
       if (await canLaunch(uri)) {
         await launch(uri);
       } else {
