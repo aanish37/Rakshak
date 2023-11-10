@@ -37,13 +37,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(
+          height: 20,
           margin: EdgeInsets.only(left: 5),
           decoration: BoxDecoration(
             // color: backgroundLight,
             shape: BoxShape.circle,
           ),
           child: Image.asset(
-            'assets/rakshak_logo-removebg-preview.png',
+            'assets/logo_transparent.png',
             fit: BoxFit.contain,
           ),
         ),

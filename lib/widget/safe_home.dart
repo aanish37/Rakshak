@@ -214,13 +214,13 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
 
                         if (value == true) {
                    
-                          requestSmsPermission(sharingNumber);
+                          requestSmsPermission(sharingNumber,"Hi, Please find me here!!");
                         }
                       }
 
                       timer = Timer.periodic(Duration(minutes: 1), (timer) {
                         if (sharingNumber != null && value == true) {
-                          requestSmsPermission(sharingNumber);
+                          requestSmsPermission(sharingNumber,"Hi,I am here now!!");
                         }
                       });
 

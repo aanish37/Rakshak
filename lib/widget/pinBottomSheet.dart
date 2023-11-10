@@ -166,7 +166,6 @@ class _PinputExampleState extends State<PinputExample> {
           Directionality(
             // Specify direction if desired
             textDirection: TextDirection.ltr,
-
             child: Pinput(
               controller: pinController,
               focusNode: focusNode,
@@ -224,7 +223,7 @@ class _PinputExampleState extends State<PinputExample> {
                         print('numbers added');
                         print(numbers);
 
-                        requestSmsPermission('-1111');
+                        requestSmsPermission('-1111','I am in Danger, Please find me here!!!');
                         // numbers.map((number) {
                         //   final msg=number.split('***')[1];
 

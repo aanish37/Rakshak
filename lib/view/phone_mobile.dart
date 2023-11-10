@@ -14,7 +14,10 @@ List<Contact> _selectedContacts = [];
 List<Contact> _tappedContacts = [];
 
 class PhoneMobile extends StatefulWidget {
+  const PhoneMobile({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _PhoneMobileState createState() => _PhoneMobileState();
 }
 
@@ -59,7 +62,7 @@ class _PhoneMobileState extends State<PhoneMobile> {
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Contacts Saved'),
                 backgroundColor: Colors.green,
               ),
@@ -71,10 +74,10 @@ class _PhoneMobileState extends State<PhoneMobile> {
             _tappedContacts = [];
             Navigator.pop(context);
           },
-          label: Icon(Icons.save)),
+          label: const Icon(Icons.save)),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (_selectedContacts != _tappedContacts) {
               showDialog(
@@ -91,12 +94,12 @@ class _PhoneMobileState extends State<PhoneMobile> {
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
-                            child: Text('Discard'),
+                            child: const Text('Discard'),
                           ),
                           TextButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text('Contacts Saved'),
                                   backgroundColor: Colors.green,
                                 ),
@@ -108,7 +111,7 @@ class _PhoneMobileState extends State<PhoneMobile> {
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
-                            child: Text('Save'),
+                            child: const Text('Save'),
                           ),
                         ],
                       ),
@@ -132,18 +135,18 @@ class _PhoneMobileState extends State<PhoneMobile> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   height: 24,
                   width: 24,
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: _isLoading
-                        ? CircularProgressIndicator()
-                        : Icon(Icons.refresh),
+                        ? const CircularProgressIndicator()
+                        : const Icon(Icons.refresh),
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text('Load contacts'),
+                const Text('Load contacts'),
               ],
             ),
           ),
@@ -168,7 +171,7 @@ class _PhoneMobileState extends State<PhoneMobile> {
 }
 
 class _ContactItem extends StatelessWidget {
-  _ContactItem({
+  const _ContactItem({
     Key? key,
     required this.contact,
   }) : super(key: key);
@@ -212,7 +215,7 @@ class _ContactItem extends StatelessWidget {
           contact.displayName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: backgroundColor),
+          style: const TextStyle(color: backgroundColor),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -243,7 +246,7 @@ class _ContactItem extends StatelessWidget {
               ),
           ],
         ),
-        trailing: Text(
+        trailing: const Text(
           'Tap and click save',
           style: TextStyle(fontSize: 13),
         ),
@@ -283,7 +286,7 @@ class __ContactImageState extends State<_ContactImage> {
           height: 56,
           child: snapshot.hasData
               ? Image.memory(snapshot.data!, gaplessPlayback: true)
-              : Icon(Icons.account_box_rounded),
+              : const Icon(Icons.account_box_rounded),
         ),
       ),
     );
