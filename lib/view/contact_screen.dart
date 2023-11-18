@@ -14,19 +14,6 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFCFE),
-      appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          title: Text(
-            "SOS Contacts",
-            style: TextStyle(
-                fontSize: 26, fontWeight: FontWeight.w900, color: Colors.black),
-          ),
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Image.asset("assets/phone_red.png"),
-            onPressed: () {},
-          )),
       body: FutureBuilder(
           future: Provider.of<EmergencyContacts>(context, listen: true)
               .checkForContacts(),

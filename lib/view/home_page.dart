@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.contain,
           ),
         ),
-        title: Text('Rakshak'),
+        title: Text(currentPage == 0 ? 'Rakshak' : 'SOS Contacts'),
         centerTitle: true,
         actions: [
           Padding(
@@ -95,7 +95,10 @@ class _HomePageState extends State<HomePage> {
                                   "assets/alert.png",
                                   height: 35,
                                 ),
-                                const Text("STOP")
+                                const Text(
+                                  "STOP",
+                                  style: TextStyle(fontSize: 10),
+                                )
                               ],
                             )
                           : Image.asset(

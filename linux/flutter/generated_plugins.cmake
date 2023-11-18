@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   maps_launcher
-  smart_auth
   url_launcher_linux
 )
 
