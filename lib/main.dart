@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rakhshak/constant.dart';
 import 'package:rakhshak/model/emergency_contacts.dart';
+import 'package:rakhshak/view/splash_screen.dart';
 import './view/home_page.dart';
 import './view/contact_screen.dart';
 import './view/dashboard.dart';
+import 'package:flutter/services.dart';
+import './view/splash_screen.dart';
 import './view/phone_mobile.dart';
 
 void main() async {
@@ -24,6 +27,8 @@ class MyApp extends StatelessWidget {
   // .
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primaryTextTheme: const TextTheme(
           headlineLarge: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.w500, color: Colors.black),
+              fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),
           bodySmall: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w400, color: Colors.pink),
           bodyLarge: TextStyle(
@@ -49,7 +54,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const Dashboard(),
         '/phone': (context) => PhoneMobile(),
       },
-      home: HomePage(),
+      home: const SplashScreen(),
     );
   }
 }
