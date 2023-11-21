@@ -55,12 +55,13 @@ The step by step guide to use the App is shown below:
 
 
 ![Screenshot_2023-11-20-21-35-00-527_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/aa700034-c2de-4c00-8af8-cd1a4582ef59)
-![Scr![Screenshot_2023-11-20-21-35-47-703_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/a97fdaaf-9f81-4550-acb1-fc85d1fecc51)
-eenshot![Screenshot_2023-11-20-21-35-45-168_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/7bea163b-e25f-4e97-b4b7-b994fe56b10c)
+![Screenshot_2023-11-20-21-35-32-202_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/388ccc33-0b50-485c-99e8-317bb556e69a)
 
 7.If you want to delete the sos number then simply left slide will work 
 
-_2023-11-20-21-35-32-202_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/f912abdb-cb4a-4867-8d03-f67e6b825c7a)
+![Scr![Screenshot_2023-11-20-21-35-47-703_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/a97fdaaf-9f81-4550-acb1-fc85d1fecc51)
+eenshot![Screenshot_2023-11-20-21-35-45-168_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/7bea163b-e25f-4e97-b4b7-b994fe56b10c)
+
 
 
 
