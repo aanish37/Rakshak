@@ -36,7 +36,6 @@ class _SafeHomeState extends State<SafeHome> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     removeGetHome();
   }
@@ -126,7 +125,6 @@ class SafeHomeWidget extends StatefulWidget {
 
 class _SafeHomeWidgetState extends State<SafeHomeWidget> {
   changeStateOfHomeSafe(value, sharingNumber) async {
-    print(value);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (value == false) {
@@ -145,7 +143,6 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
   Timer? timer;
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     timer?.cancel();
   }
@@ -197,7 +194,6 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
                           ),
                     value: widget.getHomeActivated,
                     onChanged: (value) async {
-                      print(value);
                       changeStateOfHomeSafe(value, sharingNumber);
                      
 
@@ -218,7 +214,7 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
                         }
                       }
 
-                      timer = Timer.periodic(Duration(minutes: 1), (timer) {
+                      timer = Timer.periodic(const Duration(minutes: 1), (timer) {
                         if (sharingNumber != null && value == true) {
                           requestSmsPermission(sharingNumber,"Hi,I am here now!!");
                         }
@@ -226,7 +222,6 @@ class _SafeHomeWidgetState extends State<SafeHomeWidget> {
 
                       if (value == false) {
                         timer?.cancel();
-                        print('stopeed');
                       }
 
                       //only toggle if sharing number is not null else do nothing

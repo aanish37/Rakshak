@@ -146,3 +146,111 @@ class _PhoneMobileState extends State<PhoneMobile> {
 
   //   return contacts;
   // }
+
+
+
+  //code for pinput
+
+  
+                //  Pinput(
+                //   controller: pinController,
+                //   focusNode: focusNode,
+                //   defaultPinTheme: defaultPinTheme,
+                //   separator: const SizedBox(width: 8),
+                //   validator: (value) {
+                //     if (widget.userPin == -1111) {
+                //       print('try to add pin');
+                //       return null;
+                //     } else if (value == null) {
+                //       return 'Add Pin First';
+                //     } else if (int.parse(value) == widget.userPin) {
+                //       return null;
+                //     } else {
+                //       print('Pin is incorrect');
+                //       return 'Pin is incorrect';
+                //     }
+                //   },
+                //   onClipboardFound: (value) {
+                //     debugPrint('onClipboardFound: $value');
+                //     pinController.setText(value);
+                //   },
+                //   hapticFeedbackType: HapticFeedbackType.lightImpact,
+                //   onCompleted: (pin) async {
+                //     if (widget.userPin == -1111) {
+                //       print('try to add pin');
+                //       Provider.of<EmergencyContacts>(context, listen: false)
+                //           .createPin(pin);
+
+                //       Navigator.pop(context);
+                //     } else {
+                //       if (int.parse(pin) == widget.userPin) {
+                //         print('password matched as above start sending messages');
+
+                //         if (widget.alerted) {
+                //           print(false);
+                //           Provider.of<EmergencyContacts>(context, listen: false)
+                //               .setAlertedStatus(false);
+                //         }
+
+                //         if (widget.alerted == false) {
+                //           print(true);
+                //           final numbers = await Provider.of<EmergencyContacts>(
+                //                   context,
+                //                   listen: false)
+                //               .checkForContacts();
+
+                //           Provider.of<EmergencyContacts>(context, listen: false)
+                //               .setAlertedStatus(true);
+                //           //start sending message;]
+
+                //           if (numbers == []) {
+                //             print('add numbers first');
+                //           } else {
+                //             print('numbers added');
+                //             print(numbers);
+
+                //             requestSmsPermission('-1111','I am in Danger, Please find me here!!!');
+                //             // numbers.map((number) {
+                //             //   final msg=number.split('***')[1];
+
+                //             //   requestSmsPermission(msg);
+                //             // });
+                //             print('executed');
+                //           }
+                //         }
+
+                //         Navigator.pop(context);
+                //       } else {
+                //         print('Pin is incorrect');
+                //       }
+                //     }
+                //     debugPrint('onCompleted: $pin');
+                //   },
+                //   cursor: Column(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Container(
+                //         margin: const EdgeInsets.only(bottom: 9),
+                //         width: 22,
+                //         height: 1,
+                //         color: focusedBorderColor,
+                //       ),
+                //     ],
+                //   ),
+                //   focusedPinTheme: defaultPinTheme.copyWith(
+                //     decoration: defaultPinTheme.decoration!.copyWith(
+                //       borderRadius: BorderRadius.circular(8),
+                //       border: Border.all(color: focusedBorderColor),
+                //     ),
+                //   ),
+                //   submittedPinTheme: defaultPinTheme.copyWith(
+                //     decoration: defaultPinTheme.decoration!.copyWith(
+                //       color: fillColor,
+                //       borderRadius: BorderRadius.circular(19),
+                //       border: Border.all(color: focusedBorderColor),
+                //     ),
+                //   ),
+                //   errorPinTheme: defaultPinTheme.copyBorderWith(
+                //     border: Border.all(color: Colors.redAccent),
+                //   ),
+                // ),

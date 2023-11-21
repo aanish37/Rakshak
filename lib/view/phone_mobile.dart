@@ -3,7 +3,6 @@ import 'dart:typed_data' as td;
 
 import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rakhshak/constant.dart';
 import '../model/emergency_contacts.dart';
@@ -29,7 +28,6 @@ class _PhoneMobileState extends State<PhoneMobile> {
   }
 
   List<Contact> _contacts = const [];
-  String? _text;
 
   bool _isLoading = false;
 
@@ -45,9 +43,7 @@ class _PhoneMobileState extends State<PhoneMobile> {
       setState(() {
         _contacts = contacts;
       });
-    } on PlatformException catch (e) {
-      _text = 'Failed to get contacts:\n${e.details}';
-    } finally {
+    }  finally {
       _isLoading = false;
     }
     if (!mounted) return;
@@ -281,7 +277,7 @@ class __ContactImageState extends State<_ContactImage> {
     return FutureBuilder<td.Uint8List?>(
       future: _imageFuture,
       builder: (context, snapshot) => CircleAvatar(
-        child: Container(
+        child: SizedBox(
           width: 56,
           height: 56,
           child: snapshot.hasData

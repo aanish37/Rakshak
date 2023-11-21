@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rakhshak/constant.dart';
 import 'package:rakhshak/model/emergency_contacts.dart';
-import 'package:rakhshak/view/splash_screen.dart';
 import './view/home_page.dart';
 import './view/contact_screen.dart';
 import './view/dashboard.dart';
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/contacts': (context) => const ContactScreen(),
         '/dashboard': (context) => const Dashboard(),
-        '/phone': (context) => PhoneMobile(),
+        '/phone': (context) => const PhoneMobile(),
       },
       home: const SplashScreen(),
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:rakhshak/constant.dart';
 
@@ -33,7 +35,7 @@ class Emergency extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -85,7 +87,7 @@ class Emergency extends StatelessWidget {
                         child: Center(
                           child: Text(
                             number,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: backgroundColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18),
@@ -116,7 +118,8 @@ class Emergency extends StatelessWidget {
         print('Cannot launch URL');
       }
     } catch (e) {
-      print(e);
-    }
+      print('Cannot launch URL');
+      
+      }
   }
 }

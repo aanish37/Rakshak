@@ -19,9 +19,9 @@ class LocationWidget extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: InkWell(
               onTap: () {
-                openMapFunc(title + " near me");
+                openMapFunc("$title near me");
               },
-              child: Container(
+              child: SizedBox(
                   height: 80,
                   width: 80,
                   child: Center(

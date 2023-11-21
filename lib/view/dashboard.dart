@@ -9,7 +9,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Column(
         children: [
           Row(
@@ -25,10 +25,10 @@ class Dashboard extends StatelessWidget {
                       .headlineLarge,
                 ),
               ),
-              TextButton(onPressed: () {}, child: Text('See More')),
+              TextButton(onPressed: () {}, child: const Text('See More')),
             ],
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
@@ -59,7 +59,7 @@ class Dashboard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Row(
@@ -75,10 +75,10 @@ class Dashboard extends StatelessWidget {
                       .headlineLarge,
                 ),
               ),
-              TextButton(onPressed: () {}, child: Text('See More')),
+              TextButton(onPressed: () {}, child: const Text('See More')),
             ],
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
@@ -93,15 +93,15 @@ class Dashboard extends StatelessWidget {
                       title: 'Bus Stations', image: 'assets/bus_stop.png'),
                 ],
               )),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             height: 200,
             width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
-            child: SafeHome(),
+            child: const SafeHome(),
           )
         ],
       ),

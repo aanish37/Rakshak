@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         leading: Container(
           height: 20,
-          margin: EdgeInsets.only(left: 5),
-          decoration: BoxDecoration(
+          margin: const EdgeInsets.only(left: 5),
+          decoration: const BoxDecoration(
             // color: backgroundLight,
             shape: BoxShape.circle,
           ),
@@ -51,8 +51,8 @@ class _HomePageState extends State<HomePage> {
         title: Text(currentPage == 0 ? 'Rakshak' : 'SOS Contacts'),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
+          const Padding(
+            padding: EdgeInsets.only(right: 20),
             child: Icon(
               Icons.settings,
               size: 30,
@@ -85,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                   future: Provider.of<EmergencyContacts>(context, listen: true)
                       .getAlertedStatus(),
                   builder: ((context, snapshot) {
-                    print(snapshot.data);
                     if (snapshot.hasData) {
                       return snapshot.data == true
                           ? Column(

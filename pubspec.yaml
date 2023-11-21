@@ -33,7 +33,6 @@ dependencies:
   fast_contacts: ^3.0.3
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^16.1.0
   flutter_spinkit: ^5.2.0
   location: ^5.0.3
   maps_launcher: ^2.2.0
