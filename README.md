@@ -66,8 +66,13 @@ eenshot![Screenshot_2023-11-20-21-35-45-168_com example rakhshak](https://github
 
 
 8.On home page there is option of get home page that is use to provide a realtime location of yours to a person from the already saved sos contacts periodically each minute.
+
+
 ![Screenshot_2023-11-20-21-36-35-482_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/a0327bf5-b057-49be-8b61-4be7ff7e8ff9)
-9.If you click one number from the list of numbers you can see the check icon the toggle the share location then the location will be sent to that user's phone via sms.![Screenshot_2023-11-20-21-37-15-024_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/bb6ef81c-138b-41e1-8117-8619a5a8fbbd)
+
+9.If you click one number from the list of numbers you can see the check icon the toggle the share location then the location will be sent to that user's phone via sms.
+
+![Screenshot_2023-11-20-21-37-15-024_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/bb6ef81c-138b-41e1-8117-8619a5a8fbbd)
 ![Screenshot_2023-11-20-21-38-10-126_com android mms](https://github.com/aanish37/Rakshak/assets/141607712/01647802-953a-45d0-adc8-d91565996738)
 
 10.Also you can see a ambulance siren icon in homepage after clicking that you can create pin that will  be used everytime for disabling the feature which sends live location in case of emergency saying "I am in danger find me here " to each saved person's phone number.
@@ -75,5 +80,6 @@ eenshot![Screenshot_2023-11-20-21-35-45-168_com example rakhshak](https://github
 ![Screenshot_2023-11-20-21-38-37-721_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/78affa11-3376-4f2a-add1-3be62354e4f3)
 
 11.after activating service you can see the icon chaged in that siren for disabling kindly press that icon and enter pin number to disable feature
+
 ![Screensh![Screenshot_2023-11-20-21-39-01-439_com android mms](https://github.com/aanish37/Rakshak/assets/141607712/6d24b01e-b1a2-4fe5-bc38-9166f74df802)
 ot_2023-11-20-21-38-49-894_com example rakhshak](https://github.com/aanish37/Rakshak/assets/141607712/d42cd028-6a9d-4c4d-a11e-cb734ddd6070)
